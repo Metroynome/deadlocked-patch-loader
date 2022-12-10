@@ -17,7 +17,7 @@
 
 int _InfiniteHealthMoonjump_Init = 0;
 
-void main()
+void InfiniteHealthMoonjump()
 {
 	// Handle On/Off Button Press
 	void * PlayerPointer = (void*)(*(u32*)0x001eeb70);
@@ -41,4 +41,25 @@ void main()
 	if ((pad->btns & PAD_CROSS) == 0){
 		*(float*)(PlayerPointer - 0x2EB4) = 0.125;
 	}
+}
+
+void RunCodes()
+{
+	// Call this first
+	dlPreUpdate();
+
+	InfiniteHealthMoonjump();
+
+	// Call this last
+	dlPostUpdate();
+}
+
+void main(void)
+{
+	if(*(u32*)0x00138DD0 == 0x0C049C30)
+	{
+		*(u32*)0x00138DD0 = 0x0c000000 | ((u32)(&RunCodes) >> 2)
+	}
+
+	return 0;
 }
