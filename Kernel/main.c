@@ -1,11 +1,20 @@
 #include <tamtypes.h>
 #include <kernel.h>
 #include <libdl/dl.h>
+#include <libdl/player.h>
 #include <libdl/pad.h>
 #include <libdl/game.h>
 #include <libdl/string.h>
+#include <libdl/stdio.h>
+#include <libdl/gamesettings.h>
 #include <libdl/graphics.h>
 #include <libdl/ui.h>
+#include <libdl/math.h>
+#include <libdl/math3d.h>
+#include <libdl/hud.h>
+#include <libdl/music.h>
+#include <libdl/weapon.h>
+#include <libdl/team.h>
 
 #define EngineAddr 0x80047010
 
@@ -13,7 +22,7 @@ u32 HookAddr = 0x800001A0;
 u32 HookValue = (((int)EngineAddr << 4) >> 6) + 0x08000000;
 u32 CodesAddr = 0x80050000;
 
-u32 Engine[] = { 
+u32 Engine[11] = { 
 	0x27BDFFE0,
 	0x7FBF0000,
 	0x7FA20010,
@@ -29,18 +38,19 @@ u32 Engine[] = {
 
 };
 
-void HookKernel(void)
+void HookKernel()
 {
+
 	DI();
 	ee_kmode_enter();
-		memcpy((u32*)(int)EngineAddr, Engine, sizeof(Engine));						/* Install the NetCheat Engine into the kernel */
-		// memset((u8*)CodesAddr, 0, 0x61440);	
-		memcpy((u32*)(CodesAddr + 8), (u32*)0x01E00000, 0xffff);
-		// memcpy((u32*)0x000F0000, (u32*)CodesAddr, 61440);								/* Clear code area */
-		// memcpy((u32*)(CodesAddr + 8), (u32*)0x000F0000, code_len);					/* Install the codes into the kernel */
-		*(u32*)((int)EngineAddr - 0x18) = (CodesAddr + 0x10); 							/* Pointer to initial code */
-		*(u32*)((int)EngineAddr - 0x10) = (CodesAddr + 0x10); 							/* Pointer to current code */
-		*(u32*)HookAddr = HookValue;												/* Install the kernel hook */
+		memcpy((u32*)(int)EngineAddr, Engine, sizeof(Engine));
+		// memset((u32*)CodesAddr, 0x10, 0x0000EFFC);	
+		memcpy((u32*)(CodesAddr + 8), (u32*)0x01E00000, 20);
+		// memcpy((u32*)0x000F0000, (u32*)CodesAddr, 61440);
+		// memcpy((u32*)(CodesAddr + 8), (u32*)0x000F0000, code_len);
+		*(u32*)((int)EngineAddr - 0x18) = (CodesAddr + 0x10); 
+		*(u32*)((int)EngineAddr - 0x10) = (CodesAddr + 0x10);
+		*(u32*)HookAddr = HookValue;
 	ee_kmode_exit();
 	EI();
 }
@@ -56,13 +66,7 @@ int main(void)
 	// Still needs to be changed.  Disable vSync disables mod-menu.
 	((void (*)(void))0x001270C0)();
 
-	// Call this first
-	dlPreUpdate();
-
 	HookKernel();
 
-	// Call this last
-	dlPostUpdate();
-
-	return 1;
+	return 0;
 }

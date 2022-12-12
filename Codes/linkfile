@@ -14,7 +14,7 @@
 ENTRY(_start);
 
 SECTIONS {
-	.text 0x80050000: {
+	.text 0x800F0000: {
 		_ftext = . ;
 		*(.text)
 		*(.text.*)
