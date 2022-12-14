@@ -53,3 +53,10 @@ Mkfile.old
 dkms.conf
 
 .vscode/
+*.elf
+Codes/*.bin
+codes/code.S
+Kernel/*bin
+bin/*.elf
+bin/*.bin
+bin/*.S
