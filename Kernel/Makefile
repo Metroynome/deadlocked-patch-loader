@@ -10,7 +10,7 @@ EE_DEFS = -DDEBUG
 all: $(EE_BIN) clean_some copy
 
 clean:
-	rm -f *.irx *.o *.bin *.elf code.S
+	rm -f *.irx *.o *.bin *.elf code.s
 
 clean_some:
 	rm -f *.irx *.o
