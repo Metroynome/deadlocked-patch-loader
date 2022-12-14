@@ -10,9 +10,14 @@ EE_DEFS = -DDEBUG
 
 all: the_copy_bin make_s the_copy_s
 
-make_s:
-	bin2s $(EE_BIN) $(EE_S) CODES
+# make copy.bin and copy it to bin/
 the_copy_bin: $(EE_BIN) copy
+
+# Convert code.bin to code.S
+make_s:
+	bin2s $(EE_BIN) $(EE_S) Chaos_Codes
+
+# copy code.S to /../Kernel/ and then clean_some
 the_copy_s: $(EE_S) copy_s clean_some
 
 clean:
