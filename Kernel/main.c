@@ -18,6 +18,9 @@
 
 #define EngineAddr 0x80047010
 
+extern void codes;
+extern u32 size_codes;
+
 u32 HookAddr = 0x800001A0;
 u32 HookValue = (((int)EngineAddr << 4) >> 6) + 0x08000000;
 u32 CodesAddr = 0x80050000;

@@ -53,7 +53,7 @@ void main(void)
 
 	printf("use your inside codes!\n");
 
-	// InfiniteHealthMoonjump();
+	InfiniteHealthMoonjump();
 
 	// Call this last
 	dlPostUpdate();
