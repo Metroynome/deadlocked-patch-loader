@@ -58,6 +58,7 @@ Codes/*.bin
 Codes/code.S
 Kernel/*bin
 Kernel/code.S
+Kernel/code.s
 bin/*.elf
 bin/*.bin
 bin/*.S
