@@ -4,5 +4,5 @@ copy:
 	cp $(CURDIR)/$(EE_BIN) $(CURDIR)/$(BIN_PATH)$(EE_BIN)
 
 copy_s:
-	mkdir -p $(CURDIR)/$(BIN_PATH)
-	cp $(CURDIR)/$(EE_S) $(CURDIR)/$(BIN_PATH)$(EE_S)
+	# mkdir -p $(CURDIR)/$(BIN_PATH)
+	cp $(CURDIR)/$(EE_S) $(CURDIR)/../Kernel/$(EE_S)

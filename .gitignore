@@ -52,11 +52,13 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+
 .vscode/
 *.elf
 Codes/*.bin
-codes/code.S
+Codes/code.S
 Kernel/*bin
+Kernel/code.S
 bin/*.elf
 bin/*.bin
 bin/*.S

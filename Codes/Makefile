@@ -8,15 +8,18 @@ EE_INCS := -I../../include -I$(PS2SDK)/ports/include
 EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../../lib -L$(PS2SDK)/ports/lib
 EE_DEFS = -DDEBUG
 
-all: make_s the_copy_bin the_copy_s
+all: the_copy_bin make_s the_copy_s
 
 make_s:
 	bin2s $(EE_BIN) $(EE_S) CODES
-the_copy_bin: $(EE_BIN) clean copy
-the_copy_s: $(EE_S) clean copy_s
+the_copy_bin: $(EE_BIN) copy
+the_copy_s: $(EE_S) copy_s clean_some
 
 clean:
 	rm -f *.irx *.o *.bin *.elf code.S
+
+clean_some:
+	rm -f *.irx *.o code.S
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal
