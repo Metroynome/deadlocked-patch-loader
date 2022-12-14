@@ -13,6 +13,27 @@ Why not just use a cheat device?  This is more fun.  And this way I can just sha
 # The Plan
  2. Load all codes.c into kernel and run
  2. sounds easier than said.
- 3. convert codes.c to codes.S via bin2s.
+ 3. DONE --convert codes.c to codes.S via bin2s--.
  4. do more magic.
  5. hope it works.
+
+
+## Build with docker
+Clone Repo:
+```sh
+git clone https://github.com/Metroynome/Deadlocked-Chaos.git
+cd Deadlocked-Chaos
+```
+
+Get PS2SDK via docker:
+```sh
+docker pull ps2dev/ps2dev:v1.2.0
+docker run -it --rm -v "$PWD\:/src" ps2dev/ps2dev:v1.2.0
+cd src
+./docker-init.sh
+```
+
+Make it:
+```sh
+make
+```
