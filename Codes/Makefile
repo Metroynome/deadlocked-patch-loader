@@ -1,16 +1,22 @@
 EE_ELF = code.elf
 EE_BIN = code.bin
+EE_S = code.S
 EE_OBJS = main.o
 EE_LIBS = -ldl -lkernel
 
 EE_INCS := -I../../include -I$(PS2SDK)/ports/include
 EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../../lib -L$(PS2SDK)/ports/lib
-#EE_DEFS = -DDEBUG
+EE_DEFS = -DDEBUG
 
-all: $(EE_BIN) clean copy
+all: make_s the_copy_bin the_copy_s
+
+make_s:
+	bin2s $(EE_BIN) $(EE_S) CODES
+the_copy_bin: $(EE_BIN) clean copy
+the_copy_s: $(EE_S) clean copy_s
 
 clean:
-	rm -f *.irx *.o
+	rm -f *.irx *.o *.bin *.elf code.S
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal

@@ -4,7 +4,7 @@ all:
 	dd conv=notrunc bs=1 if=$(CURDIR)/code.bin of=patch.bin seek=4096
 	
 clean:
-	rm -f *.irx *.o *.bin *.elf
+	rm -f *.irx *.o *.bin *.elf *.S
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal

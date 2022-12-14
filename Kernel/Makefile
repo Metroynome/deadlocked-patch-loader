@@ -10,7 +10,7 @@ EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../libdl/lib
 all: $(EE_BIN) clean copy
 
 clean:
-	rm -f *.irx *.o
+	rm -f *.irx *.o *.bin *.elf
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal
