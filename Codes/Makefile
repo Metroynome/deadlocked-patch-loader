@@ -1,6 +1,6 @@
-EE_ELF = code.elf
-EE_BIN = code.bin
-EE_S = code.s
+EE_ELF = codes.elf
+EE_BIN = codes.bin
+EE_S = codes.s
 EE_OBJS = main.o
 EE_LIBS = -ldl -lkernel
 
@@ -9,23 +9,23 @@ EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../../lib -L$(PS2SDK)/po
 EE_LDFLAGS += -s
 #EE_DEFS = -DDEBUG
 
-all: the_copy_bin make_s the_copy_s
+all: copy_bin codes.s then_copy_s
 
 # make copy.bin and copy it to bin/
-the_copy_bin: $(EE_BIN) copy
+copy_bin: $(EE_BIN) copy
 
-# Convert code.bin to code.S
-make_s:
-	bin2s $(EE_ELF) $(EE_S) Chaos_Codes
+# Convert code.bin to codes.s
+codes.s:
+	bin2s $(EE_ELF) $(EE_S) codes
 
-# copy code.S to /../Kernel/ and then clean_some
-the_copy_s: $(EE_S) copy_s clean_some
+# copy codes.s to /../Kernel/ and then clean_some
+then_copy_s: $(EE_S) copy_s clean_some
 
 clean:
-	rm -f *.irx *.o *.bin *.elf code.s
+	rm -f *.irx *.o *.bin *.elf codes.s
 
 clean_some:
-	rm -f *.irx *.o code.s
+	rm -f *.irx *.o codes.s
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal

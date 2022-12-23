@@ -1,6 +1,6 @@
 EE_ELF = kernel.elf
 EE_BIN = kernel.bin
-EE_OBJS = main.o code.o
+EE_OBJS = main.o codes.o
 EE_LIBS = -ldl -lkernel
 
 EE_INCS := -I../../include -I$(PS2SDK)/ports/include
@@ -10,7 +10,7 @@ EE_DEFS = -DDEBUG
 all: $(EE_BIN) clean_some copy
 
 clean:
-	rm -f *.irx *.o *.bin *.elf code.s
+	rm -f *.irx *.o *.bin *.elf codes.s
 
 clean_some:
 	rm -f *.irx *.o
