@@ -10,13 +10,6 @@ Why not just use a cheat device?  This is more fun.  And this way I can just sha
  2. Kernel Engine Address: `0x80047010`
  3. Codes Address: `0x80050000`
 
-# The Plan
- 2. Load all codes.c into kernel and run
- 2. sounds easier than said.
- 3. DONE --convert codes.c to codes.S via bin2s--.
- 4. do more magic.
- 5. hope it works.
-
 
 ## Build with docker
 Clone Repo:
