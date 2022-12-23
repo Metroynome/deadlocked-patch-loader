@@ -46,17 +46,16 @@ void InfiniteHealthMoonjump()
 	}
 }
 
-void main(void)
+void RunCodes()
 {
-	// Call this first
 	dlPreUpdate();
-
-	printf("use your inside codes!\n");
-
 	InfiniteHealthMoonjump();
-
-	// Call this last
 	dlPostUpdate();
+}
+
+int main(void)
+{
+	printf("use your inside codes!\n");
 
 	return 0;
 }
