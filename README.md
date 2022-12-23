@@ -40,14 +40,14 @@ make
 ## How it Compiles Currently:
 1. Compile `Codes/` directory
     This holds all the Chaos-Mod codes/timers
-    1. compile `code.bin` and `code.elf` (stripped .elf)
-    2. Convert `code.elf` to `code.s`
-    3. copy `code.s` to `/../Kernel`
+    1. compile `codes.bin` and `codes.elf` (stripped .elf)
+    2. Convert `codes.elf` to `codes.s`
+    3. copy `codes.s` to `/../Kernel`
 2. Compile `Kernel/` directory
     This is where the code can hook into the kernel via the `patch.bin`
-    1. Comple `kernel.bin` and `kernel.elf`with an added `code.s` added to the `EE_OBJ` line. 
+    1. Comple `kernel.bin` and `kernel.elf`with an added `codes.s` added to the `EE_OBJ` line. 
     2. copy `kernel.bin` to `/../bin`
 3. Compile `bin/` directory
     This is where the new `patch.bin` file is created.
     1. Copy `patch-template.bin` from `template/` to `bin/` as `patch.bin`
-    2. Write `kernel.bin` file into `patch.bin` at offset `0x100`, or `265` bytes
+    2. Write `kernel.bin` file into `patch.bin` at offset `0x100`, or `256` bytes

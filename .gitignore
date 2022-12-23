@@ -55,10 +55,10 @@ dkms.conf
 .vscode/
 *.elf
 Codes/*.bin
-Codes/code.S
+Codes/codes.S
 Kernel/*bin
-Kernel/code.S
-Kernel/code.s
+Kernel/codes.S
+Kernel/codes.s
 bin/*.elf
 bin/*.bin
 bin/*.S
