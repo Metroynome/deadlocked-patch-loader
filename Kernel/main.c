@@ -32,17 +32,20 @@ u32 Engine[] = {
 	0x7FA20010,
 	0x3C018004,
 	0x34217010,
-	0x8C25FFF0,
+	0x8C39FFFC,
+	0x17200008,
+	0x00000000,
+	0x240F0001,
+	0xAC2FFFFC,
 	0x8C24FFF8,
+	0x8C25FFF0,
 	0x8C26FFF4,
-	0x0C011C18,
+	0x08011C1B,
 	0x00000000,
 	0x3C0B0012,
 	0x356B74AC,
 	0x3C0C0803,
 	0x358CC000,
-	0x116C0002,
-	0x00000000,
 	0xAD6C0000,
 	0x7BA20010,
 	0x03400008,
@@ -95,7 +98,6 @@ u32 Engine[] = {
 
 void HookKernel()
 {
-
 	DI();
 	ee_kmode_enter();
 		// copy Engline into EngineAddr
@@ -105,13 +107,14 @@ void HookKernel()
 		// copy codes starting at offset +0x1000 to the end into CodeAddr
 		memcpy((u8*)KernelCodesAddr, (u8*)(&codes + 0x1000), (size_codes - 0x1000));
 		// Copy KernelCodesAddr into NonKernelCodesAddr.
-		memcpy((u8*)NonKernelCodesAddr, (u8*)KernelCodesAddr, (size_codes - 0x1000));
+		// memcpy((u8*)NonKernelCodesAddr, (u8*)KernelCodesAddr, (size_codes - 0x1000));
 		// Set KernelCodesAddr Pointer for Engine.
 		*(u32*)((int)EngineAddr - 0x10) = KernelCodesAddr;
-		// Set NonKernelCodeAddr Pointer for Engine.
-		*(u32*)((int)EngineAddr - 0x8) = NonKernelCodesAddr;
 		// set size_codes information for Engine
 		*(u32*)((int)EngineAddr - 0xc) = (size_codes - 0x1000);
+		// Set NonKernelCodeAddr Pointer for Engine.
+		*(u32*)((int)EngineAddr - 0x8) = NonKernelCodesAddr;
+
 		*(u32*)HookAddr = HookValue;
 	ee_kmode_exit();
 	EI();

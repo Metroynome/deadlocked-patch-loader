@@ -10,12 +10,18 @@ addiu sp, sp, $FFE0
 sq ra, $0000(sp)
 sq v0, $0010(sp)
 
-setreg at, :_init
-lw a1, $fff0(at) // KernelCodesAddr (src)
-lw a0, $fff8(at) // NonKernelCodesAddr (dest)
-lw a2, $fffc(at) // size_codes (size)
+setreg at, $80047010
+lw t9, $FFFC(at)
+bne t9, zero, :_end
+nop
+addiu t7, zero, $0001
+sw t7, $FFFC(at)
 
-jal :_memcpy
+lw a0, $fff8(at) // NonKernelCodesAddr (dest)
+lw a1, $fff0(at) // KernelCodesAddr (src)
+lw a2, $fff4(at) // size_codes (size)
+
+j :_memcpy
 nop
 
 /*
@@ -25,13 +31,14 @@ beq at, zero, :_end
 nop
 */
 
+_end:
 setreg t3, $001274ac
 setreg t4, $0803c000
-beq t3, t4 :_end
-nop
+//beq t3, t4 :_end
+//nop
 sw t4, $0000(t3)
 
-_end:
+
 lq v0, $0010(sp)
 jr k0
 addiu sp, sp, $0020
@@ -79,5 +86,5 @@ addiu a1, a1, $0001
 sb v0, $0000(v1)
 bne a2, a0, $fffb
 addiu v1, v1, $0001
-jr ra 
+jr ra
 daddu v0, t0, zero
