@@ -1,6 +1,13 @@
 /*
 Deadlocked-Chaos Mod Engine
 Created by Agent Moose
+
+
+
+NOTES:
+ - under "_do_hook", disabling hook is currently commented due to freezing.
+ - Also disabled check at begining of code too.
+
 */
 address $00047010
 
@@ -38,22 +45,25 @@ sq gp, $01c0(sp)
 sq ra, $01d0(sp)
 
 setreg at, $80047010
+
+/*
+NOTE: Turning on/off mod via engine freezes currently
+
+lw t9, $fffc(at) // Load EnableDisable Variable.
+// if variable equals zero, code is off. Code hook needs to reset.
+beq t9, zero, :_do_hook
+nop
+*/
+
 lw t9, $fff8(at) // Load Destination Pointer
 lw t9, $0000(t9) // Load Destination Data
-// Check to see if data is zero, if not, jump to end.
+// Check to see if data is zero, if not, continue
 beq t9, zero, :_doMemCpy
 nop
-setreg t3, $001274ac
-setreg t4, $0803c000
-lw t5, $0000(t3)
-// if hook equals zero, jump to end.
-beq t5, zero, :_end
+
+jal :_do_hook
 nop
-// if hook already equals needed value, jump to end.
-beq t5, t4, :_end
-nop
-// if not, save new value into hook.
-sw t4, $0000(t3)
+beq zero, zero, :_end
 
 _doMemCpy:
 lw a0, $fff8(at) // NonKernelCodesAddr (dest)
@@ -94,6 +104,30 @@ lq gp, $01c0(sp)
 lq ra, $01d0(sp)
 jr k0
 addiu sp, sp, $0200
+
+_do_hook:
+setreg t3, $001274ac // Hook
+/*
+NOTES: Disabling hook currently freezes.
+setreg t4, $03e00008 // jr ra value
+// if mod is off, skip changing hook value.
+beq t9, zero, :_do_hook_change
+nop
+*/
+setreg t4, $0803c000 // new Value
+_do_hook_change:
+lw t5, $0000(t3)
+// if hook equals zero, jump to exit.
+beq t5, zero, :_exit_do_hook
+nop
+// if hook already equals needed value, jump to exit.
+beq t5, t4, :_exit_do_hook
+nop
+// if not, save new value into hook.
+sw t4, $0000(t3)
+_exit_do_hook:
+jr ra
+nop
 
 // Taken from Deadlocked Assembly
 _memcpy:
