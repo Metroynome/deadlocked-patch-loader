@@ -25,6 +25,13 @@ u32 HookAddr = 0x800001A0;
 u32 HookValue = (((int)EngineAddr << 4) >> 6) + 0x08000000;
 u32 KernelCodesAddr = 0x80050000;
 u32 NonKernelCodesAddr = 0x000F0000;
+const char EnableChaosMod[] = "Press \x11 to Enable Chaos Mod";
+const char DisableChaosMod[] = "Press \x11 to Disable Chaos Mod";
+
+
+int EnabledChaosMod = 0;
+int ToggleChaosMod = 0;
+
 
 u32 Engine[] = {
 	0x27BDFE00,
@@ -62,21 +69,14 @@ u32 Engine[] = {
 	0x34217010,
 	0x8C39FFF8,
 	0x8F390000,
-	0x1320000B,
+	0x13200004,
 	0x00000000,
-	0x3C0B0012,
-	0x356B74AC,
-	0x3C0C0803,
-	0x358CC000,
-	0x8D6D0000,
-	0x11A00008,
+	0x0C011C50,
 	0x00000000,
-	0x11AC0006,
-	0x00000000,
-	0xAD6C0000,
+	0x10000004,
 	0x8C24FFF8,
 	0x8C25FFF0,
-	0x0C011C57,
+	0x0C011C5C,
 	0x8C26FFF4,
 	0x7BA10000,
 	0x7BA20010,
@@ -110,6 +110,18 @@ u32 Engine[] = {
 	0x7BBF01D0,
 	0x03400008,
 	0x27BD0200,
+	0x3C0B0012,
+	0x356B74AC,
+	0x3C0C0803,
+	0x358CC000,
+	0x8D6D0000,
+	0x11A00004,
+	0x00000000,
+	0x11AC0002,
+	0x00000000,
+	0xAD6C0000,
+	0x03E00008,
+	0x00000000,
 	0x0080402D,
 	0x2CC20020,
 	0x1440001c,
@@ -156,7 +168,7 @@ u32 Engine[] = {
 
 };
 
-void HookKernel()
+void HookKernel(EnableDisable)
 {
 	DI();
 	ee_kmode_enter();
@@ -172,6 +184,8 @@ void HookKernel()
 		*(u32*)((int)EngineAddr - 0xc) = (size_codes - 0x1000);
 		// Set NonKernelCodeAddr Pointer for Engine.
 		*(u32*)((int)EngineAddr - 0x8) = NonKernelCodesAddr;
+		// EnableDisable variable used in Engine
+		*(u32*)((int)EngineAddr - 0x4) = EnableDisable;
 
 		*(u32*)HookAddr = HookValue;
 	ee_kmode_exit();
@@ -188,7 +202,51 @@ int main(void)
 	// run original jal that patch.bin hook took over
 	((void (*)(void))0x001270C0)();
 
-	HookKernel();
+	// If Mod is Enabled
+	if (EnabledChaosMod == 1)
+	{
+		// Disable "Online Play" Option
+		*(u32*)0x0136237C = 3;
+		// Disable "Local Play" Option
+		*(u32*)0x013623DC = 3;	
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, &DisableChaosMod, -1, 4);
+	}
+	// if Mod is Disabled
+	else if (EnabledChaosMod == 0)
+	{
+		// Enable "Online Play" Option
+		*(u32*)0x0136237C = 4;
+		// Enable "Local Play" Option
+		*(u32*)0x013623DC = 4;
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, &EnableChaosMod, -1, 4);
+	}
 
+	// if circle is pressed
+	// Enable
+	if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 0 && ToggleChaosMod == 0)
+	{
+		// Disable Mod Check
+		EnabledChaosMod = 1;
+		// Switch ToggleChaosMod to true so it doesn't cycle.
+		ToggleChaosMod = 1;	
+		// Enable Through Engine
+		HookKernel(1);
+	}
+	// Disable
+	// else if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 1 && ToggleChaosMod == 0)
+	// {
+	// 	// Enabled Mod Check
+	// 	EnabledChaosMod = 0;
+	// 	// Switch ToggleChaosMod to true so it doesn't cycle.
+	// 	ToggleChaosMod = 1;
+	// 	// Disable through Engine
+	// 	HookKernel(0);
+	// }
+	// Reset ToggleChaosMod (AKA is circle pressed?)
+	else if(*(u16*)0x001EE682 != 0xdfff)
+	{
+		ToggleChaosMod = 0;
+	}
+	
 	return 0;
 }
