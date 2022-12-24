@@ -48,14 +48,11 @@ void InfiniteHealthMoonjump()
 
 void RunCodes()
 {
-	dlPreUpdate();
 	InfiniteHealthMoonjump();
-	dlPostUpdate();
 }
 
 int main(void)
 {
-	printf("use your inside codes!\n");
-
+	RunCodes();
 	return 0;
 }
