@@ -186,7 +186,6 @@ int main(void)
 
 	// Patch.bin hook: 0x00138DD0
 	// run original jal that patch.bin hook took over
-	// Still needs to be changed.  Disable vSync disables mod-menu.
 	((void (*)(void))0x001270C0)();
 
 	HookKernel();

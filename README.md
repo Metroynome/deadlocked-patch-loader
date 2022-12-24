@@ -5,12 +5,15 @@ Why not just use a cheat device?  This is more fun.  And this way I can just sha
 
 ## Current Progress
 1. Current code in `Codes/main.c` is Infinite Health/Moon Jump.  It does work in Local play and in campaign.
-2. I am going to add an option to the Online/Local Play screen so you can turn on/off the mod.
+2. I am going to add an option to the Multiplayer Menu so you can turn on/off the mod.
 3. Will add actual codes that contribute to the Chaos mod as time continues.
 
-# Notes
- 1. Kernel Engine Address: `0x80047010`
- 2. Codes Address: `0x80050000`
+# How To Use
+0. Obtain a copy of the mod.  Whether you compile it or get a shared save, you're choice.
+1. Once the file/save is in the correct spot, start the game.
+2. Once loaded, Go to "Mulitplayer".  The mod will automatically load.
+3. Once on the multiplayer menu, exit by pressing triangle and then choose single player and choose a new save (or a current save...?).
+4. Enjoy the Deadlocked Chaos Mod!  (Currently no mods...have fun?)
 
 ## Build with docker
 Clone Repo:
@@ -45,3 +48,7 @@ make
     This is where the new `patch.bin` file is created.
     1. Copy `patch-template.bin` from `template/` to `bin/` as `patch.bin`
     2. Write `kernel.bin` file into `patch.bin` at offset `0x100`, or `256` bytes
+
+    # Notes
+ 1. Kernel Engine Address: `0x80047010`
+ 2. Codes Address: `0x80050000`
