@@ -8,7 +8,7 @@ EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../libdl/lib
 EE_DEFS = -DDEBUG
 
 # Make Kernel.elf/bin, but do not copy.
-all: $(EE_BIN) clean_some #copy
+all: $(EE_BIN) clean_some copy
 
 clean:
 	rm -f *.irx *.o *.bin *.elf codes.s
