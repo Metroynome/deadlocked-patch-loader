@@ -26,7 +26,8 @@ void InfiniteHealthMoonjump()
 	
 	Player * player = (Player*)((u32)PlayerPointer - 0x2FEC);
 	PadButtonStatus * pad = playerGetPad(player);
-	if ((pad->btns & (PAD_R3 | PAD_R2)) == 0){
+	if ((pad->btns & (PAD_R3 | PAD_R2)) == 0)
+	{
 		_InfiniteHealthMoonjump_Init = 1;
 	}
 	else if ((pad->btns & (PAD_L3)) == 0)
@@ -41,7 +42,8 @@ void InfiniteHealthMoonjump()
 	// Player Health is always max.
 	player->Health = PLAYER_MAX_HEALTH;
 	// if X is pressed, lower gravity.
-	if ((pad->btns & PAD_CROSS) == 0){
+	if ((pad->btns & PAD_CROSS) == 0)
+	{
 		*(float*)(PlayerPointer - 0x2EB4) = 0.125;
 	}
 }
