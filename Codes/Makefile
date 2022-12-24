@@ -11,8 +11,8 @@ EE_LDFLAGS += -s
 
 all: copy_bin codes.s then_copy_s
 
-# make copy.bin and copy it to bin/
-copy_bin: $(EE_BIN) copy
+# make copy.bin, but don't copy to /bin
+copy_bin: $(EE_BIN)
 
 # Convert code.bin to codes.s
 codes.s:
