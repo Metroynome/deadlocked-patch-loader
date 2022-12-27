@@ -1,8 +1,15 @@
-all:
-	cat $(CURDIR)/../template/patch-template.bin > $(CURDIR)/patch.bin
-	dd conv=notrunc bs=1 if=$(CURDIR)/../Kernel/kernel.bin of=patch.bin seek=256
-#	dd conv=notrunc bs=1 if=$(CURDIR)/code.bin of=patch.bin seek=4096
-	
+KERNEL_BIN = $(CURDIR)/kernel.bin
+PATCH_TEMPLATE = $(CURDIR)/../template/patch-template.bin
+
+all: check_size
+	cat $(PATCH_TEMPLATE) > $(CURDIR)/patch.bin
+	dd conv=notrunc bs=1 if=$(KERNEL_BIN) of=patch.bin seek=256
+
+check_size:
+#	Test to see if kernel.bin is too big.
+#	if file size is greater than 65270 bytes, don't write to patch.bin.
+	test -n "$$(find $(KERNEL_BIN) -a -size -65270c)"
+
 clean:
 	rm -f *.irx *.o *.bin *.elf *.S
 
