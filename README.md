@@ -5,14 +5,14 @@ Why not just use a cheat device?  This is more fun.  And this way I can just sha
 
 ## Current Progress
 1. Current code in `Codes/main.c` is Infinite Health/Moon Jump.  It does work in Local play and in campaign.
-2. I am going to add an option to the Multiplayer Menu so you can turn on/off the mod.
-3. Will add actual codes that contribute to the Chaos mod as time continues.
+2. Will add actual codes that contribute to the Chaos mod as time continues.
 
 # How To Use
 0. Obtain a copy of the mod.  Whether you compile it or get a shared save, you're choice.
 1. Once the file/save is in the correct spot, start the game.
 2. Once loaded, Go to "Mulitplayer".  The mod will automatically load.
-3. Once on the multiplayer menu, exit by pressing triangle and then choose single player and choose a new save (or a current save...?).
+3. Once on the multiplayer menu, Press Circle to Enable/Disable the mod.
+4. Once Enabled, Exit by pressing triangle and then choose single player and choose a new save (or a current save...?).
 4. Enjoy the Deadlocked Chaos Mod!  (Currently no mods...have fun?)
 
 ## Build with docker
