@@ -25,7 +25,7 @@ clean:
 	rm -f *.irx *.o *.bin *.elf codes.s *.pnach
 
 clean_some:
-	rm -f *.irx *.o codes.s *.pnach
+	rm -f *.irx *.o codes.s
 
 codes.pnach:
 	bin2code $(EE_BIN) 000F0000 codes.pnach pnach
