@@ -55,6 +55,11 @@ void RunCodes()
 
 int main(void)
 {
+	// if EnableDisable Variable is 0, Mod is disabled.
+	if (*(u32*)0x000EFFFC == 0)
+		return -1;
+
 	RunCodes();
+
 	return 0;
 }
