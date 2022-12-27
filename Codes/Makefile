@@ -22,10 +22,10 @@ codes.s:
 then_copy_s: $(EE_S) copy_s clean_some
 
 clean:
-	rm -f *.irx *.o *.bin *.elf codes.s
+	rm -f *.irx *.o *.bin *.elf codes.s *.pnach
 
 clean_some:
-	rm -f *.irx *.o codes.s
+	rm -f *.irx *.o codes.s *.pnach
 
 codes.pnach:
 	bin2code $(EE_BIN) 000F0000 codes.pnach pnach
