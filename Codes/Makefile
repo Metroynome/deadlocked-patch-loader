@@ -9,10 +9,10 @@ EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../../lib -L$(PS2SDK)/po
 EE_LDFLAGS += -s
 #EE_DEFS = -DDEBUG
 
-all: copy_bin codes.s then_copy_s
+all: codes.bin codes.s then_copy_s codes.pnach
 
 # make copy.bin, but don't copy to /bin
-copy_bin: $(EE_BIN)
+codes.bin: $(EE_BIN)
 
 # Convert code.bin to codes.s
 codes.s:
@@ -26,6 +26,10 @@ clean:
 
 clean_some:
 	rm -f *.irx *.o codes.s
+
+codes.pnach:
+	bin2code $(EE_BIN) 000F0000 codes.pnach pnach
+	cat $(CURDIR)/../template/codes-footer.pnach >> codes.pnach
 
 include $(CURDIR)/../Makefile.pref
 include $(CURDIR)/../Makefile.eeglobal
