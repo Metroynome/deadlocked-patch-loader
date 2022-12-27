@@ -30,7 +30,7 @@ const char DisableChaosMod[] = "Press \x11 to Disable Chaos Mod";
 
 
 int EnabledChaosMod = 0;
-int ToggleChaosMod = 0;
+int IsCirclePressed = 0;
 
 
 u32 Engine[] = {
@@ -67,16 +67,18 @@ u32 Engine[] = {
 	0x7FBF01D0,
 	0x3C018004,
 	0x34217010,
+	0x8C38FFFC,
 	0x8C39FFF8,
+	0xAF38FFFC,
 	0x8F390000,
 	0x13200004,
 	0x00000000,
-	0x0C011C50,
+	0x0C011C52,
 	0x00000000,
 	0x10000004,
 	0x8C24FFF8,
 	0x8C25FFF0,
-	0x0C011C5C,
+	0x0C011C5E,
 	0x8C26FFF4,
 	0x7BA10000,
 	0x7BA20010,
@@ -202,13 +204,17 @@ int main(void)
 	// run original jal that patch.bin hook took over
 	((void (*)(void))0x001270C0)();
 
+	// Check to see if on Multiplayer Menu.  If not, don't run anything else.
+	if (uiGetActivePointer() != uiGetPointer(UI_MENU_ID_ONLINE_LOCAL_EDIT_PROFILE_MENU))
+		return -1;
+
 	// If Mod is Enabled
 	if (EnabledChaosMod == 1)
 	{
 		// Disable "Online Play" Option
 		*(u32*)0x0136237C = 3;
 		// Disable "Local Play" Option
-		*(u32*)0x013623DC = 3;	
+		*(u32*)0x013623DC = 3;
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, &DisableChaosMod, -1, 4);
 	}
 	// if Mod is Disabled
@@ -223,29 +229,29 @@ int main(void)
 
 	// if circle is pressed
 	// Enable
-	if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 0 && ToggleChaosMod == 0)
+	if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 0 && IsCirclePressed == 0)
 	{
 		// Disable Mod Check
 		EnabledChaosMod = 1;
-		// Switch ToggleChaosMod to true so it doesn't cycle.
-		ToggleChaosMod = 1;	
+		// Switch IsCirclePressed to true so it doesn't cycle.
+		IsCirclePressed = 1;	
 		// Enable Through Engine
 		HookKernel(1);
 	}
 	// Disable
-	// else if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 1 && ToggleChaosMod == 0)
-	// {
-	// 	// Enabled Mod Check
-	// 	EnabledChaosMod = 0;
-	// 	// Switch ToggleChaosMod to true so it doesn't cycle.
-	// 	ToggleChaosMod = 1;
-	// 	// Disable through Engine
-	// 	HookKernel(0);
-	// }
-	// Reset ToggleChaosMod (AKA is circle pressed?)
+	else if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 1 && IsCirclePressed == 0)
+	{
+		// Enabled Mod Check
+		EnabledChaosMod = 0;
+		// Switch IsCirclePressed to true so it doesn't cycle.
+		IsCirclePressed = 1;
+		// Disable through Engine
+		HookKernel(0);
+	}
+	// Reset IsCirclePressed
 	else if(*(u16*)0x001EE682 != 0xdfff)
 	{
-		ToggleChaosMod = 0;
+		IsCirclePressed = 0;
 	}
 	
 	return 0;
