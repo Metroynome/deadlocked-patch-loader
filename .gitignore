@@ -56,6 +56,7 @@ dkms.conf
 *.elf
 Codes/*.bin
 Codes/codes.S
+Codes/*.pnach
 Kernel/*bin
 Kernel/codes.S
 Kernel/codes.s
