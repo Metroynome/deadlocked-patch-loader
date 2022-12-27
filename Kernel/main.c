@@ -1,20 +1,9 @@
 #include <tamtypes.h>
 #include <kernel.h>
-#include <libdl/dl.h>
-#include <libdl/player.h>
-#include <libdl/pad.h>
-#include <libdl/game.h>
 #include <libdl/string.h>
 #include <libdl/stdio.h>
-#include <libdl/gamesettings.h>
 #include <libdl/graphics.h>
 #include <libdl/ui.h>
-#include <libdl/math.h>
-#include <libdl/math3d.h>
-#include <libdl/hud.h>
-#include <libdl/music.h>
-#include <libdl/weapon.h>
-#include <libdl/team.h>
 
 #define EngineAddr 0x80047010
 
@@ -28,10 +17,8 @@ u32 NonKernelCodesAddr = 0x000F0000;
 const char EnableChaosMod[] = "Press \x11 to Enable Chaos Mod";
 const char DisableChaosMod[] = "Press \x11 to Disable Chaos Mod";
 
-
 int EnabledChaosMod = 0;
 int IsCirclePressed = 0;
-
 
 u32 Engine[] = {
 	0x27BDFE00,
@@ -249,10 +236,10 @@ int main(void)
 		HookKernel(0);
 	}
 	// Reset IsCirclePressed
-	else if(*(u16*)0x001EE682 != 0xdfff)
+	else if (*(u16*)0x001EE682 != 0xdfff)
 	{
 		IsCirclePressed = 0;
 	}
-	
+
 	return 0;
 }
