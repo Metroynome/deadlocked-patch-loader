@@ -33,6 +33,8 @@ cd src
 Make it:
 ```sh
 make
+
+When building, it also creates a `codes.pnach` cheat file in `Codes/`.  this is so you can test the mod with PCSX2, without the need of loading into the Multiplayer Menu.
 ```
 ## How it Compiles Currently:
 1. Compile `Codes/` directory
