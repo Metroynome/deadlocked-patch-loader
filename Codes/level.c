@@ -1,6 +1,6 @@
 #include "include/level.h"
 
-#define CURRENT_LEVEL (*(u32*)0x0021DE10)
+#define CURRENT_LEVEL (*(int*)0x0021DE10)
 #define MISSION_AREA (0x001711A8)
 
 MISSIONLOAD * Mission = (MISSIONLOAD*)MISSION_AREA;
