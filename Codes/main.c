@@ -1,21 +1,14 @@
 #include <tamtypes.h>
-#include <libdl/dl.h>
 #include <libdl/player.h>
 #include <libdl/pad.h>
 #include <libdl/game.h>
-#include <libdl/string.h>
 #include <libdl/stdio.h>
-#include <libdl/gamesettings.h>
-#include <libdl/graphics.h>
-#include <libdl/ui.h>
-#include <libdl/math.h>
-#include <libdl/math3d.h>
-#include <libdl/hud.h>
-#include <libdl/music.h>
-#include <libdl/weapon.h>
-#include <libdl/team.h>
+#include "include/level.h"
+#include "include/graphics.h"
 
 int _InfiniteHealthMoonjump_Init = 0;
+int _Test = 0;
+int _ShowText = 0;
 
 void InfiniteHealthMoonjump()
 {
@@ -48,9 +41,33 @@ void InfiniteHealthMoonjump()
 	}
 }
 
+void Test()
+{
+	void * PlayerPointer = (void*)(*(u32*)0x001eeb70);
+	if (PlayerPointer == 0)
+		return;
+
+	Player * player = (Player*)((u32)PlayerPointer - 0x2FEC);
+	PadButtonStatus * pad = playerGetPad(player);
+	if ((pad->btns & PAD_UP) == 0 && _Test == 0)
+	{
+		_Test = 1;
+		_ShowText = !_ShowText;
+		// levelResetMission();
+	}
+	else if ((pad->btns & PAD_UP) != 0 && _Test == 1)
+	{
+		_Test = 0;
+	}
+
+	if (_ShowText == 1)
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
+}
+
 void RunCodes()
 {
 	InfiniteHealthMoonjump();
+	Test();
 }
 
 int main(void)
