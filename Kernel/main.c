@@ -5,6 +5,20 @@
 #include <libdl/graphics.h>
 #include <libdl/ui.h>
 
+/*
+uiShowPopup Possibilities
+203EB918
+203F0294
+203FA810
+204531E8
+20457538
+2048B708
+2048B728
+2048D1D8
+2048D200
+2048D220
+*/
+
 #define EngineAddr 0x80047010
 
 extern void codes;
@@ -99,8 +113,8 @@ u32 Engine[] = {
 	0x7BBF01D0,
 	0x03400008,
 	0x27BD0200,
-	0x3C0B0012,
-	0x356B74AC,
+	0x3C0B0013,
+	0x356B8DFC,
 	0x3C0C0803,
 	0x358CC000,
 	0x8D6D0000,
@@ -194,6 +208,9 @@ int main(void)
 	// Check to see if on Multiplayer Menu.  If not, don't run anything else.
 	if (uiGetActivePointer() != uiGetPointer(UI_MENU_ID_ONLINE_LOCAL_EDIT_PROFILE_MENU))
 		return -1;
+
+	// Grab Current status of Mod.
+	EnabledChaosMod = *(u32*)0x000EFFFC;
 
 	// If Mod is Enabled
 	if (EnabledChaosMod == 1)

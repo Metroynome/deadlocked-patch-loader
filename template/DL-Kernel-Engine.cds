@@ -92,7 +92,7 @@ jr k0
 addiu sp, sp, $0200
 
 _do_hook:
-setreg t3, $001274ac // Hook
+setreg t3, $00138DFC // Hook
 setreg t4, $0803c000 // New Value
 lw t5, $0000(t3)
 // if hook equals zero, jump to exit.
