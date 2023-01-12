@@ -4,6 +4,7 @@
 #include <libdl/stdio.h>
 #include <libdl/graphics.h>
 #include <libdl/ui.h>
+#include <libdl/dl.h>
 
 /*
 uiShowPopup Possibilities
@@ -28,8 +29,6 @@ u32 HookAddr = 0x800001A0;
 u32 HookValue = (((int)EngineAddr << 4) >> 6) + 0x08000000;
 u32 KernelCodesAddr = 0x80050000;
 u32 NonKernelCodesAddr = 0x000F0000;
-const char EnableChaosMod[] = "Press \x11 to Enable Chaos Mod";
-const char DisableChaosMod[] = "Press \x11 to Disable Chaos Mod";
 
 int EnabledChaosMod = 0;
 int IsCirclePressed = 0;
@@ -197,13 +196,16 @@ void HookKernel(EnableDisable)
 
 int main(void)
 {
-	// if Music is not Loaded, stop.
-	if (*(u32*)0x001CF85C != 0x000F8D29)
-		return -1;
+	// Call this first
+	dlPreUpdate();
 
 	// Patch.bin hook: 0x00138DD0
 	// run original jal that patch.bin hook took over
 	((void (*)(void))0x001270C0)();
+
+	// if Music is not Loaded, stop.
+	if (*(u32*)0x001CF85C != 0x000F8D29)
+		return -1;
 
 	// Check to see if on Multiplayer Menu.  If not, don't run anything else.
 	if (uiGetActivePointer() != uiGetPointer(UI_MENU_ID_ONLINE_LOCAL_EDIT_PROFILE_MENU))
@@ -219,7 +221,7 @@ int main(void)
 		*(u32*)0x0136237C = 3;
 		// Disable "Local Play" Option
 		*(u32*)0x013623DC = 3;
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, &DisableChaosMod, -1, 4);
+		// gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Disable Chaos Mod", -1, 4);
 	}
 	// if Mod is Disabled
 	else if (EnabledChaosMod == 0)
@@ -228,7 +230,7 @@ int main(void)
 		*(u32*)0x0136237C = 4;
 		// Enable "Local Play" Option
 		*(u32*)0x013623DC = 4;
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, &EnableChaosMod, -1, 4);
+		// gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Enable Chaos Mod", -1, 4);
 	}
 
 	// if circle is pressed
@@ -257,6 +259,9 @@ int main(void)
 	{
 		IsCirclePressed = 0;
 	}
+
+	// Call this last
+	dlPostUpdate();
 
 	return 0;
 }
