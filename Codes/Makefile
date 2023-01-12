@@ -1,7 +1,7 @@
 EE_ELF = codes.elf
 EE_BIN = codes.bin
 EE_S = codes.s
-EE_OBJS = main.o level.o
+EE_OBJS = main.o functions.o level.o graphics.o interop.o
 EE_LIBS = -ldl -lkernel
 
 EE_INCS := -I../../include -I$(PS2SDK)/ports/include
