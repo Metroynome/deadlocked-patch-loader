@@ -52,8 +52,15 @@ nop
 beq zero, zero, :_end
 
 _doMemCpy:
-lw a0, $fff8(at) // NonKernelCodesAddr (dest)
-lw a1, $fff0(at) // KernelCodesAddr (src)
+//Exception Handler
+lw a0, $ffec(at) // eeAddr_ExceptionHandler (dest)
+lw a1, $ffe4(at) // kAddr_ExceptionHandler (src)
+jal :_memcpy
+lw a2, $ffe8(at) // size_ExceptionHandler (size)
+
+// Codes
+lw a0, $fff8(at) // eeAddr_Codes (dest)
+lw a1, $fff0(at) // kAddr_Codes (src)
 jal :_memcpy
 lw a2, $fff4(at) // size_codes (size)
 
@@ -152,3 +159,4 @@ bne a2, a0, $fffb
 addiu v1, v1, $0001
 jr ra
 daddu v0, t0, zero
+
