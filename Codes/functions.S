@@ -69,6 +69,7 @@ __LocalGetAddress_offsets:
     // MARAXUS = +36,
     // GHOST_STATION = +40,
     // DREADZONE_INTERIOR = +44
+	// MAIN_MENU = +48 (Doesn't Work Currently)
 	.byte -1,0,4,-1,8,12,16,20,24,-1,28,32,-1,36,40,44;
 
 // 

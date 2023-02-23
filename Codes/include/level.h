@@ -1,13 +1,9 @@
 #ifndef CODES_LEVEL_H
 #define CODES_LEVEL_H
 
-/*
-2017197C <- Changes to current map id after ship fly in.
-201CEBF8 <- Near Music
-2021DE10 <- Changes as soon as map is loaded in memory.
-*/
 typedef enum
 {
+	MAIN_MENU = -1,
     BATTLEDOME = 1,
     CATACROM = 2,
     SARATHOS = 4,

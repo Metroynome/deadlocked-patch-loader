@@ -14,8 +14,8 @@ VariableAddress_t vaGetTextWidthFunc = {
 	.Stygia = 0x00509CA8,
 	.Maraxus = 0x005231E8,
 	.GhostStation = 0x0051C040,
-	.DreadZoneInterior = 0x0052DA00
-	// .StartMenu = 0x00454780
+	.DreadZoneInterior = 0x0052DA00,
+	// .MainMenu = 0x00454780
 };
 
 VariableAddress_t vaDrawTextFunc = {
@@ -30,8 +30,8 @@ VariableAddress_t vaDrawTextFunc = {
 	.Stygia = 0x00509F98,
 	.Maraxus = 0x005234D8,
 	.GhostStation = 0x0051C330,
-	.DreadZoneInterior = 0x0052DCF0
-	// .StartMenu = 0x00454A70
+	.DreadZoneInterior = 0x0052DCF0,
+	// .MainMenu = 0x00454A70
 };
 
 int internal_drawFunc(u32,const char*,long,u64,u64,u64,float,float,float,float,float,float);
