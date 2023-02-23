@@ -25,10 +25,19 @@ uiShowPopup Possibilities
 extern void codes;
 extern u32 size_codes;
 
+extern void exceptiondisplay;
+extern u32 size_exceptiondisplay;
+
 u32 HookAddr = 0x800001A0;
 u32 HookValue = (((int)EngineAddr << 4) >> 6) + 0x08000000;
-u32 KernelCodesAddr = 0x80050000;
-u32 NonKernelCodesAddr = 0x000F0000;
+
+// Set /Codes/ Directory address'
+u32 kAddr_Codes = 0x80050000;
+u32 eeAddr_Codes = 0x000F0000;
+
+// Set Exception Handler address'
+u32 kAddr_ExceptionDisplay = 0x80079000;
+u32 eeAddr_ExceptionDisplay = 0x000c8000;
 
 int EnabledChaosMod = 0;
 int IsCirclePressed = 0;
@@ -73,12 +82,16 @@ u32 Engine[] = {
 	0x8F390000,
 	0x13200004,
 	0x00000000,
-	0x0C011C52,
+	0x0C011C56,
 	0x00000000,
-	0x10000004,
+	0x10000008,
+	0x8C24FFEC,
+	0x8C25FFE4,
+	0x0C011C62,
+	0x8C26FFE8,
 	0x8C24FFF8,
 	0x8C25FFF0,
-	0x0C011C5E,
+	0x0C011C62,
 	0x8C26FFF4,
 	0x7BA10000,
 	0x7BA20010,
@@ -176,18 +189,27 @@ void HookKernel(EnableDisable)
 	ee_kmode_enter();
 		// copy Engline into EngineAddr
 		memcpy((u32*)(int)EngineAddr, Engine, sizeof(Engine));
-		// memset size of codes - 0x1000 because the first 0x1000 bytes of codes is not needed.
-		memset((u32*)KernelCodesAddr, 0, (size_codes - 0x1000));
-		// copy codes starting at offset +0x1000 to the end into CodeAddr
-		memcpy((u8*)KernelCodesAddr, (u8*)(&codes + 0x1000), (size_codes - 0x1000));
-		// Set KernelCodesAddr Pointer for Engine.
-		*(u32*)((int)EngineAddr - 0x10) = KernelCodesAddr;
-		// set size_codes information for Engine
+		// memset size of codes -0x1000 because the first 0x1000 bytes of codes is not needed.
+		memset((u32*)kAddr_Codes, 0, (size_codes - 0x1000));
+		// copy codes starting at offset +0x1000 to the end into kAddr_Codes
+		memcpy((u8*)kAddr_Codes, (u8*)(&codes + 0x1000), (size_codes - 0x1000));
+		// Set kAddr_Codes Pointer for Engine.
+		*(u32*)((int)EngineAddr - 0x10) = kAddr_Codes;
+		// set size_codes information for Engine.
 		*(u32*)((int)EngineAddr - 0xc) = (size_codes - 0x1000);
-		// Set NonKernelCodeAddr Pointer for Engine.
-		*(u32*)((int)EngineAddr - 0x8) = NonKernelCodesAddr;
-		// EnableDisable variable used in Engine
+		// Set eeAddr_Codes Pointer for Engine.
+		*(u32*)((int)EngineAddr - 0x8) = eeAddr_Codes;
+		// EnableDisable variable used in Engine.
 		*(u32*)((int)EngineAddr - 0x4) = EnableDisable;
+
+		// Handle Exception Handler
+		memcpy((u8*)kAddr_ExceptionDisplay, (u8*)(&exceptiondisplay), size_exceptiondisplay);
+		// Set Kernel Exception Handler Pointer for Engine.
+		*(u32*)((int)EngineAddr - 0x1c) = kAddr_ExceptionDisplay;
+		// Set size_exceptiondisplay information for Engine.
+		*(u32*)((int)EngineAddr - 0x18) = size_exceptiondisplay;
+		// Set EE Exception Handler Pointer for Engine
+		*(u32*)((int)EngineAddr - 0x14) = eeAddr_ExceptionDisplay;
 
 		*(u32*)HookAddr = HookValue;
 	ee_kmode_exit();
@@ -213,6 +235,8 @@ int main(void)
 
 	// Grab Current status of Mod.
 	EnabledChaosMod = *(u32*)0x000EFFFC;
+
+	// gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Enable/Disable Mod", -1, 4);
 
 	// If Mod is Enabled
 	if (EnabledChaosMod == 1)

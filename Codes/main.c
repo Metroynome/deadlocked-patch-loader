@@ -1,10 +1,16 @@
 #include <tamtypes.h>
+#include <libdl/dl.h>
 #include <libdl/player.h>
 #include <libdl/pad.h>
 #include <libdl/game.h>
 #include <libdl/stdio.h>
 #include "include/level.h"
 #include "include/graphics.h"
+
+#define IS_PROGRESSIVE_SCAN				(*(int*)0x0021DE6C)
+#define EXCEPTION_DISPLAY_ADDR			(0x000C8000)
+
+int hasInstalledExceptionHandler = 0;
 
 int _InfiniteHealthMoonjump_Init = 0;
 int _Test = 0;
@@ -72,11 +78,39 @@ void RunCodes()
 
 int main(void)
 {
+	// Call this first
+	dlPreUpdate();
+
 	// if EnableDisable Variable is 0, Mod is disabled.
 	if (*(u32*)0x000EFFFC == 0)
 		return -1;
 
+	// Exception Display
+	if (*(u32*)EXCEPTION_DISPLAY_ADDR != 0)
+	{
+		if (!hasInstalledExceptionHandler)
+		{
+			((void (*)(void))EXCEPTION_DISPLAY_ADDR)();
+			hasInstalledExceptionHandler = 1;
+		}
+		
+		// change display to match progressive scan resolution
+		if (IS_PROGRESSIVE_SCAN)
+		{
+			*(u16*)(EXCEPTION_DISPLAY_ADDR + 0x9F4) = 0x0083;
+			*(u16*)(EXCEPTION_DISPLAY_ADDR + 0x9F8) = 0x210E;
+		}
+		else
+		{
+			*(u16*)(EXCEPTION_DISPLAY_ADDR + 0x9F4) = 0x0183;
+			*(u16*)(EXCEPTION_DISPLAY_ADDR + 0x9F8) = 0x2278;
+		}
+	}
+
 	RunCodes();
+
+	// Call this last
+	dlPostUpdate();
 
 	return 0;
 }
