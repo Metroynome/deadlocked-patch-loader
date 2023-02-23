@@ -60,6 +60,7 @@ Codes/*.pnach
 Kernel/*.bin
 Kernel/codes.S
 Kernel/codes.s
+Kernel/exceptiondisplay.s
 bin/*.elf
 bin/*.bin
 bin/*.S
