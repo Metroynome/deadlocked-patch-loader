@@ -46,19 +46,21 @@ lw t9, $0000(t9) // Load Destination Data
 // Check to see if data is zero, if not, continue
 beq t9, zero, :_doMemCpy
 nop
+beq t8, zero, :_do_Unhook
+nop
 
 jal :_do_hook
 nop
 beq zero, zero, :_end
 
 _doMemCpy:
-//Exception Handler
-lw a0, $ffec(at) // eeAddr_ExceptionHandler (dest)
-lw a1, $ffe4(at) // kAddr_ExceptionHandler (src)
+_ExceptionDisplay:
+lw a0, $ffec(at) // eeAddr_ExceptionDisplay (dest)
+lw a1, $ffe4(at) // kAddr_ExceptionDisplay (src)
 jal :_memcpy
-lw a2, $ffe8(at) // size_ExceptionHandler (size)
+lw a2, $ffe8(at) // size_ExceptionDisplay (size)
 
-// Codes
+_Codes:
 lw a0, $fff8(at) // eeAddr_Codes (dest)
 lw a1, $fff0(at) // kAddr_Codes (src)
 jal :_memcpy
@@ -101,7 +103,7 @@ addiu sp, sp, $0200
 _do_hook:
 setreg t3, $00138DFC // Hook
 setreg t4, $0803c000 // New Value
-lw t5, $0000(t3)
+lw t5, $0000(t3) // Current Hook Value
 // if hook equals zero, jump to exit.
 beq t5, zero, :_exit_do_hook
 nop
@@ -112,6 +114,28 @@ nop
 sw t4, $0000(t3)
 _exit_do_hook:
 jr ra
+nop
+
+_do_Unhook:
+setreg t3, $00138DFC // Patch Hook
+setreg t4, $03e00008 // New Value (jr ra)
+lw t5, $0000(t3) // Current Hook Value
+// if hook equals zero, jump to exit.
+beq t5, zero, :_exit_do_hook
+nop
+// if hook already equals needed value, jump to exit.
+beq t5, t4, :_exit_do_unhook
+nop
+// if not, save new value into hook.
+sw t4, $0000(t3)
+
+setreg t3, $800001A0 // Kernel Hook
+setreg t4, $03400008 // New Value (jr ko)
+// Save new value into hook
+sw t4, $0000(t3)
+
+_exit_do_unhook:
+j :_end
 nop
 
 // Taken from Deadlocked Assembly

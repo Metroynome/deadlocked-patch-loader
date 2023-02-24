@@ -80,18 +80,20 @@ u32 Engine[] = {
 	0x8C39FFF8,
 	0xAF38FFFC,
 	0x8F390000,
-	0x13200004,
+	0x13200006,
 	0x00000000,
-	0x0C011C56,
+	0x13000038,
+	0x00000000,
+	0x0C011C58,
 	0x00000000,
 	0x10000008,
 	0x8C24FFEC,
 	0x8C25FFE4,
-	0x0C011C62,
+	0x0C011C75,
 	0x8C26FFE8,
 	0x8C24FFF8,
 	0x8C25FFF0,
-	0x0C011C62,
+	0x0C011C75,
 	0x8C26FFF4,
 	0x7BA10000,
 	0x7BA20010,
@@ -136,6 +138,23 @@ u32 Engine[] = {
 	0x00000000,
 	0xAD6C0000,
 	0x03E00008,
+	0x00000000,
+	0x3C0B0013,
+	0x356B8DFC,
+	0x3C0C03E0,
+	0x358C0008,
+	0x8D6D0000,
+	0x11A0FFF8,
+	0x00000000,
+	0x11AC0007,
+	0x00000000,
+	0xAD6C0000,
+	0x3C0B8000,
+	0x356B01A0,
+	0x3C0C0340,
+	0x358C0008,
+	0xAD6C0000,
+	0x08011C38,
 	0x00000000,
 	0x0080402D,
 	0x2CC20020,
@@ -183,15 +202,17 @@ u32 Engine[] = {
 
 };
 
-void HookKernel(EnableDisable)
+void HookKernel(int EnableDisable)
 {
 	DI();
 	ee_kmode_enter();
 		// copy Engline into EngineAddr
 		memcpy((u32*)(int)EngineAddr, Engine, sizeof(Engine));
+
+		// Handle Codes.bin
 		// memset size of codes -0x1000 because the first 0x1000 bytes of codes is not needed.
 		memset((u32*)kAddr_Codes, 0, (size_codes - 0x1000));
-		// copy codes starting at offset +0x1000 to the end into kAddr_Codes
+		// Copy codes starting at offset +0x1000 to the end into kAddr_Codes
 		memcpy((u8*)kAddr_Codes, (u8*)(&codes + 0x1000), (size_codes - 0x1000));
 		// Set kAddr_Codes Pointer for Engine.
 		*(u32*)((int)EngineAddr - 0x10) = kAddr_Codes;
@@ -202,7 +223,8 @@ void HookKernel(EnableDisable)
 		// EnableDisable variable used in Engine.
 		*(u32*)((int)EngineAddr - 0x4) = EnableDisable;
 
-		// Handle Exception Handler
+		// Handle Exception Display
+		// Copy Exception Display to kernel
 		memcpy((u8*)kAddr_ExceptionDisplay, (u8*)(&exceptiondisplay), size_exceptiondisplay);
 		// Set Kernel Exception Handler Pointer for Engine.
 		*(u32*)((int)EngineAddr - 0x1c) = kAddr_ExceptionDisplay;
@@ -259,7 +281,7 @@ int main(void)
 
 	// if circle is pressed
 	// Enable
-	if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 0 && IsCirclePressed == 0)
+	if ((*(u16*)0x001EE682 == 0xdfff) && (EnabledChaosMod == 0) && (IsCirclePressed == 0))
 	{
 		// Disable Mod Check
 		EnabledChaosMod = 1;
@@ -269,7 +291,7 @@ int main(void)
 		HookKernel(1);
 	}
 	// Disable
-	else if (*(u16*)0x001EE682 == 0xdfff && EnabledChaosMod == 1 && IsCirclePressed == 0)
+	else if ((*(u16*)0x001EE682 == 0xdfff) && (EnabledChaosMod == 1) && (IsCirclePressed == 0))
 	{
 		// Enabled Mod Check
 		EnabledChaosMod = 0;
