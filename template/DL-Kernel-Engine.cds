@@ -52,6 +52,7 @@ nop
 jal :_do_hook
 nop
 beq zero, zero, :_end
+nop
 
 _doMemCpy:
 _ExceptionDisplay:
