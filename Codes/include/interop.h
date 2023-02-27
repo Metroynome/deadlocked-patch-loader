@@ -17,7 +17,7 @@ typedef struct VariableAddress
 	u32 Maraxus;
 	u32 GhostStation;
 	u32 DreadZoneInterior;
-	// u32 MainMenu;
+	u32 MainMenu;
 } VariableAddress_t;
 
 typedef union FixedAddress
@@ -35,7 +35,7 @@ typedef union FixedAddress
 	u32 Maraxus;
 	u32 GhostStation;
 	u32 DreadZoneInterior;
-	// u32 MainMenu;
+	u32 MainMenu;
 } FixedAddress_t;
 
 u32 GetAddress(VariableAddress_t* address);

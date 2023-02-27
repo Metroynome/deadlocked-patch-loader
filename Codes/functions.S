@@ -1,4 +1,5 @@
 #define GAME_MAP_ID                         (0x0021DE10)
+#define MISSION_AREA						(0x001711A8)
 
 // fixed address function
 #define FUNCTION(name, address) \
@@ -70,7 +71,7 @@ __LocalGetAddress_offsets:
     // GHOST_STATION = +40,
     // DREADZONE_INTERIOR = +44
 	// MAIN_MENU = +48 (Doesn't Work Currently)
-	.byte -1,0,4,-1,8,12,16,20,24,-1,28,32,-1,36,40,44;
+	.byte -1,0,4,-1,8,12,16,20,24,-1,28,32,-1,36,40,44,48;
 
 // 
 	.set	push;
@@ -81,14 +82,23 @@ __LocalGetAddress_offsets:
 	.type	__LocalGetAddress,@function;
 	.ent	__LocalGetAddress,0;
 __LocalGetAddress:
+	// return address by mission
+	lw $v0, MISSION_AREA;
+	blez $v0, __LocalAddressAdd_byte;
+	addiu $v1, $zero, 48;
+
 	// return address by map
 	lw $v0, GAME_MAP_ID;
+	// Exit if map is less than zero
+	blez $v0, __LocalGetAddress_exit;
+	nop
 
 	// load offset into VariableAddress struct by map id
 	la $v1, __LocalGetAddress_offsets;
 	addu $v1, $v0;
 	lb $v1, 0($v1);
 
+__LocalAddressAdd_byte:
 	// load address from struct
 	addu $a0, $v1;
 	lw $v1, 0($a0);
@@ -110,14 +120,24 @@ __LocalGetAddress_exit:
 	.type	GetAddress,@function;
 	.ent	GetAddress,0;
 GetAddress:
+	// return address by mission
+	lw $v0, MISSION_AREA;
+	// if on main menu, add our own byte
+	blez $v0, GetAddressAdd_byte;
+	addiu $v1, $zero, 48;
+
 	// return address by map
 	lw $v0, GAME_MAP_ID;
+	// Exit if map is less than zero
+	blez $v0, GetAddress_exit;
+	nop
 
 	// load offset into VariableAddress struct by map id
 	la $v1, __LocalGetAddress_offsets;
 	addu $v1, $v0;
 	lb $v1, 0($v1);
 
+GetAddressAdd_byte:
 	// load address from struct
 	addu $a0, $v1;
 	lw $v1, 0($a0);

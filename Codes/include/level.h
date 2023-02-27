@@ -3,7 +3,6 @@
 
 typedef enum
 {
-	MAIN_MENU = -1,
     BATTLEDOME = 1,
     CATACROM = 2,
     SARATHOS = 4,

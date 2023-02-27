@@ -16,7 +16,7 @@ int _InfiniteHealthMoonjump_Init = 0;
 int _Test = 0;
 int _ShowText = 0;
 
-void InfiniteHealthMoonjump()
+void InfiniteHealthMoonjump(void)
 {
 	// Handle On/Off Button Press
 	void * PlayerPointer = (void*)(*(u32*)0x001eeb70);
@@ -47,7 +47,7 @@ void InfiniteHealthMoonjump()
 	}
 }
 
-void Test()
+void Test(void)
 {
 	void * PlayerPointer = (void*)(*(u32*)0x001eeb70);
 	if (PlayerPointer == 0)
@@ -70,10 +70,30 @@ void Test()
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
 }
 
+void MainMenu(void)
+{
+	if (levelGetActiveMission() != -1)
+		return;
+
+	if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
+	{
+		_Test = 1;
+		_ShowText = !_ShowText;
+	}
+	else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
+	{
+		_Test = 0;
+	}
+
+	if (_ShowText == 1)
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
+}
+
 void RunCodes()
 {
 	InfiniteHealthMoonjump();
 	Test();
+	// MainMenu();
 }
 
 int main(void)
