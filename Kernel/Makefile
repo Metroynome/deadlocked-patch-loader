@@ -1,7 +1,7 @@
 EE_ELF = kernel.elf
 EE_BIN = kernel.bin
 EE_OBJS = main.o codes.o exceptiondisplay.o
-EE_LIBS = -ldl -lkernel
+EE_LIBS = -ldlsp -lkernel
 
 EE_INCS := -I../../include -I$(PS2SDK)/ports/include
 EE_LDFLAGS = -fno-builtin -nostdlib -nostartfiles -L. -L../libdl/lib

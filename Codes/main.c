@@ -1,11 +1,11 @@
 #include <tamtypes.h>
-#include <libdl/dl.h>
-#include <libdl/player.h>
-#include <libdl/pad.h>
-#include <libdl/game.h>
-#include <libdl/stdio.h>
-#include "include/level.h"
-#include "include/graphics.h"
+#include <libdlsp/dl.h>
+#include <libdlsp/player.h>
+#include <libdlsp/pad.h>
+#include <libdlsp/game.h>
+#include <libdlsp/stdio.h>
+#include <libdlsp/map.h>
+#include <libdlsp/graphics.h>
 
 #define IS_PROGRESSIVE_SCAN				(*(int*)0x0021DE6C)
 #define EXCEPTION_DISPLAY_ADDR			(0x000C8000)
@@ -70,24 +70,24 @@ void Test(void)
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
 }
 
-void MainMenu(void)
-{
-	if (levelGetActiveMission() != -1)
-		return;
+// void MainMenu(void)
+// {
+// 	if (levelGetActiveMission() != -1)
+// 		return;
 
-	if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
-	{
-		_Test = 1;
-		_ShowText = !_ShowText;
-	}
-	else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
-	{
-		_Test = 0;
-	}
+// 	if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
+// 	{
+// 		_Test = 1;
+// 		_ShowText = !_ShowText;
+// 	}
+// 	else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
+// 	{
+// 		_Test = 0;
+// 	}
 
-	if (_ShowText == 1)
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
-}
+// 	if (_ShowText == 1)
+// 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
+// }
 
 void RunCodes()
 {

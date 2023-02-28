@@ -17,9 +17,9 @@ make && make release && cd .. && rm -rf $REPO_FOLDER || exit 2
 
 
 ## Download the source code.
-REPO_URL="https://github.com/Dnawrkshp/libdl"
-REPO_FOLDER="libdl"
-REPO_REFERENCE="origin/main"
+REPO_URL="https://github.com/Metroynome/libdlsp"
+REPO_FOLDER="libdlsp"
+REPO_REFERENCE="origin/master"
 
 if test ! -d "$REPO_FOLDER"; then
 	git clone $REPO_URL || exit 1

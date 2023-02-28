@@ -1,10 +1,10 @@
 #include <tamtypes.h>
 #include <kernel.h>
-#include <libdl/string.h>
-#include <libdl/stdio.h>
-#include <libdl/graphics.h>
-#include <libdl/ui.h>
-#include <libdl/dl.h>
+#include <libdlsp/string.h>
+#include <libdlsp/stdio.h>
+#include <libdlsp/graphics.h>
+#include <libdlsp/ui.h>
+#include <libdlsp/dl.h>
 
 /*
 uiShowPopup Possibilities
