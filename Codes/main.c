@@ -102,7 +102,7 @@ int main(void)
 	dlPreUpdate();
 
 	// if EnableDisable Variable is 0, Mod is disabled.
-	if (*(u32*)0x000EFFFC == 0)
+	if (*(u32*)0x000EFFFC == 0 || *(u32*)0x001CF85C == 0x000F8D29)
 		return -1;
 
 	// Exception Display
