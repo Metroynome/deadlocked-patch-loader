@@ -59,7 +59,7 @@ void Test(void)
 	{
 		_Test = 1;
 		_ShowText = !_ShowText;
-		// levelResetMission();
+		// mapResetMission();
 	}
 	else if ((pad->btns & PAD_UP) != 0 && _Test == 1)
 	{
@@ -70,30 +70,38 @@ void Test(void)
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
 }
 
-// void MainMenu(void)
-// {
-// 	if (levelGetActiveMission() != -1)
-// 		return;
+void MainMenu(void)
+{
+	if (mapGetActiveMission() != -1)
+		return;
 
-// 	if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
-// 	{
-// 		_Test = 1;
-// 		_ShowText = !_ShowText;
-// 	}
-// 	else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
-// 	{
-// 		_Test = 0;
-// 	}
+	gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Main Menu! Woah!", -1, 4);
 
-// 	if (_ShowText == 1)
-// 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
-// }
+	// if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
+	// {
+	// 	_Test = 1;
+	// 	_ShowText = !_ShowText;
+	// }
+	// else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
+	// {
+	// 	_Test = 0;
+	// }
+
+	// if (_ShowText == 1)
+	// 	gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
+}
 
 void RunCodes()
 {
-	InfiniteHealthMoonjump();
-	Test();
-	// MainMenu();
+	if (isInGame())
+	{
+		InfiniteHealthMoonjump();
+		Test();
+	}
+	else if (isInMenus())
+	{
+		MainMenu();
+	}
 }
 
 int main(void)
