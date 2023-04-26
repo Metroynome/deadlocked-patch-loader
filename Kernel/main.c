@@ -240,6 +240,7 @@ void HookKernel(int EnableDisable)
 
 void OnMultiplayerMenu(void)
 {
+	gfxScreenSpaceText(SCREEN_WIDTH * 0.4, SCREEN_HEIGHT * 0.7, 1, 1, 0x80FFFFFF, "TESTING", -1, 4);
 	// If Mod is Enabled
 	if (EnabledChaosMod == 1)
 	{
@@ -247,6 +248,7 @@ void OnMultiplayerMenu(void)
 		*(u32*)0x0136237C = 3;
 		// Disable "Local Play" Option
 		*(u32*)0x013623DC = 3;
+		printf("\nEnabled!");
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Disable Chaos Mod", -1, 4);
 	}
 	// if Mod is Disabled
@@ -256,6 +258,7 @@ void OnMultiplayerMenu(void)
 		*(u32*)0x0136237C = 4;
 		// Enable "Local Play" Option
 		*(u32*)0x013623DC = 4;
+		printf("\nDisabled!");
 		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Enable Chaos Mod", -1, 4);
 	}
 
@@ -307,7 +310,19 @@ int main(void)
 	// Grab Current status of Mod.
 	EnabledChaosMod = *(u32*)0x000EFFFC;
 
-	// Hook Display Text
+
+
+	// if (isInMenus())
+	// {
+	// 	// from DL patch hook, Black Screens loading into multiplayer.
+	// 	// if (*(u32*)0x00594CBC == 0)
+	// 	// 	*(u32*)0x00594CB8 = 0x0C000000 | ((u32)(&OnMultiplayerMenu) / 4);
+
+	// 	// Hook Display Text
+	// 	if (*(u32*)0x0061E1B4 == 0x03e00008)
+	// 		*(u32*)0x0061E1B4 = 0x08000000 | ((u32)(&OnMultiplayerMenu) / 4);
+	// }
+
 	if (*(u32*)0x0061E1B4 == 0x03e00008)
 		*(u32*)0x0061E1B4 = 0x08000000 | ((u32)(&OnMultiplayerMenu) / 4);
 
