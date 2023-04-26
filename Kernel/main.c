@@ -240,7 +240,6 @@ void HookKernel(int EnableDisable)
 
 void OnMultiplayerMenu(void)
 {
-	gfxScreenSpaceText(SCREEN_WIDTH * 0.4, SCREEN_HEIGHT * 0.7, 1, 1, 0x80FFFFFF, "TESTING", -1, 4);
 	// If Mod is Enabled
 	if (EnabledChaosMod == 1)
 	{
@@ -248,8 +247,7 @@ void OnMultiplayerMenu(void)
 		*(u32*)0x0136237C = 3;
 		// Disable "Local Play" Option
 		*(u32*)0x013623DC = 3;
-		printf("\nEnabled!");
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Disable Chaos Mod", -1, 4);
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Disable Mod", -1, 4);
 	}
 	// if Mod is Disabled
 	else if (EnabledChaosMod == 0)
@@ -258,8 +256,7 @@ void OnMultiplayerMenu(void)
 		*(u32*)0x0136237C = 4;
 		// Enable "Local Play" Option
 		*(u32*)0x013623DC = 4;
-		printf("\nDisabled!");
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Enable Chaos Mod", -1, 4);
+		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Press \x11 to Enable Mod", -1, 4);
 	}
 
 	// if circle is pressed
