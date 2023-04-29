@@ -39,7 +39,7 @@ void InfiniteHealthMoonjump(void)
 		return;
 
 	// Player Health is always max.
-	player->Health = PLAYER_MAX_HEALTH;
+	player->Health = player->MaxHealth;
 	// if X is pressed, lower gravity.
 	if ((pad->btns & PAD_CROSS) == 0)
 	{
@@ -76,19 +76,6 @@ void MainMenu(void)
 		return;
 
 	gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "Main Menu! Woah!", -1, 4);
-
-	// if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 0)
-	// {
-	// 	_Test = 1;
-	// 	_ShowText = !_ShowText;
-	// }
-	// else if ((*(u16*)0x001EE682 == 0xfffd) && _Test == 1)
-	// {
-	// 	_Test = 0;
-	// }
-
-	// if (_ShowText == 1)
-	// 	gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
 }
 
 void RunCodes()
