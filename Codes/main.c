@@ -6,6 +6,7 @@
 #include <libdlsp/stdio.h>
 #include <libdlsp/map.h>
 #include <libdlsp/graphics.h>
+#include <libdlsp/ui.h>
 
 #define IS_PROGRESSIVE_SCAN				(*(int*)0x0021DE6C)
 #define EXCEPTION_DISPLAY_ADDR			(0x000C8000)
@@ -59,6 +60,8 @@ void Test(void)
 	{
 		_Test = 1;
 		_ShowText = !_ShowText;
+		// uiPrintAmmoPickup(0, 0x2D34);
+		uiShowHelpPopup(0, "Message me, Kenobi.  UwU", -1);
 		// mapResetMission();
 	}
 	else if ((pad->btns & PAD_UP) != 0 && _Test == 1)
@@ -66,8 +69,9 @@ void Test(void)
 		_Test = 0;
 	}
 
-	if (_ShowText == 1)
-		gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
+	// if (_ShowText == 1)
+		// uiShowHelpPopup(0, "GENERAL KENOBI >:(", 7);
+		// gfxScreenSpaceText(SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.855, 1, 1, 0x80FFFFFF, "TEST YOUR MOTHER FOR HUGS", -1, 4);
 }
 
 void MainMenu(void)

@@ -6,19 +6,6 @@
 #include <libdlsp/ui.h>
 #include <libdlsp/dl.h>
 
-/*
-uiShowPopup Possibilities
-203EB918
-203F0294
-203FA810
-204531E8
-20457538
-2048B708
-2048B728
-2048D1D8
-2048D200
-2048D220
-*/
 
 #define EngineAddr 0x80047010
 
@@ -290,7 +277,7 @@ void OnMultiplayerMenu(void)
 int main(void)
 {
 	// Call this first
-	dlPreUpdate();
+	// dlPreUpdate();
 
 	// Patch.bin hook: 0x00138DD0
 	// run original jal that patch.bin hook took over
@@ -301,30 +288,18 @@ int main(void)
 		return -1;
 
 	// Check to see if on Multiplayer Menu.  If not, don't run anything else.
-	if (uiGetActivePointer() != uiGetPointer(UI_MENU_ID_ONLINE_LOCAL_EDIT_PROFILE_MENU))
-		return -1;
-
-	// Grab Current status of Mod.
-	EnabledChaosMod = *(u32*)0x000EFFFC;
-
-
-
-	// if (isInMenus())
-	// {
-	// 	// from DL patch hook, Black Screens loading into multiplayer.
-	// 	// if (*(u32*)0x00594CBC == 0)
-	// 	// 	*(u32*)0x00594CB8 = 0x0C000000 | ((u32)(&OnMultiplayerMenu) / 4);
-
-	// 	// Hook Display Text
-	// 	if (*(u32*)0x0061E1B4 == 0x03e00008)
-	// 		*(u32*)0x0061E1B4 = 0x08000000 | ((u32)(&OnMultiplayerMenu) / 4);
-	// }
-
-	if (*(u32*)0x0061E1B4 == 0x03e00008)
-		*(u32*)0x0061E1B4 = 0x08000000 | ((u32)(&OnMultiplayerMenu) / 4);
-
+	if (uiGetActivePointer() == uiGetPointer(UI_MENU_ID_ONLINE_LOCAL_EDIT_PROFILE_MENU))
+	{
+		// Hook On/Off
+		if (*(u32*)0x0061E1B4 == 0x03e00008)
+			*(u32*)0x0061E1B4 = 0x08000000 | ((u32)(&OnMultiplayerMenu) / 4);
+	}
+	else
+	{
+		// If not on menus (ex: Online, Local play)
+	}
 	// Call this last
-	dlPostUpdate();
+	// dlPostUpdate();
 
 	return 0;
 }
